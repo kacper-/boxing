@@ -3,6 +3,7 @@ start=test001
 height=180
 reach=180
 weight=75
+strength=5
 # test 2 boxer
 start=test002
 height=185

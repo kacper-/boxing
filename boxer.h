@@ -5,18 +5,24 @@
 #ifndef BOXING_BOXER_H
 #define BOXING_BOXER_H
 
+#include <map>
+
 struct boxer {
     std::string name;
-    int height;
-    int reach;
-    int weight;
+    std::map<std::string, int> val;
 };
 
 const std::string COMMENT("#");
 const std::string START("start=");
-const std::string HEIGHT("height=");
-const std::string REACH("reach=");
-const std::string WEIGHT("weight=");
+
+std::string NAMES[] = {
+        std::string("height="),
+        std::string("reach="),
+        std::string("weight="),
+        std::string("strength=")
+};
+
+const int NAMES_LEN = 4;
 
 int test_line(std::string line, std::string param) {
     return !line.compare(0, param.length(), param);
@@ -27,22 +33,16 @@ int line_to_val(std::string line, std::string param) {
 }
 
 void parse_line(std::string line, struct boxer *b) {
-    if (test_line(line, HEIGHT)) {
-        b->height = line_to_val(line, HEIGHT);
-    }
-    if (test_line(line, REACH)) {
-        b->reach = line_to_val(line, REACH);
-    }
-    if (test_line(line, WEIGHT)) {
-        b->weight = line_to_val(line, WEIGHT);
+    for (int i = 0; i < NAMES_LEN; i++) {
+        if (test_line(line, NAMES[i]))
+            b->val[NAMES[i]] = line_to_val(line, NAMES[i]);
     }
 }
 
 void print_boxer(struct boxer b) {
     std::cout << b.name << std::endl;
-    std::cout << "\t" << b.height << std::endl;
-    std::cout << "\t" << b.reach << std::endl;
-    std::cout << "\t" << b.weight << std::endl;
+    for (int i = 0; i < NAMES_LEN; i++)
+        std::cout << "\t" << NAMES[i] << b.val[NAMES[i]] << std::endl;
 }
 
 #endif //BOXING_BOXER_H

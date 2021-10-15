@@ -5,9 +5,9 @@
 
 void verify_input(int argc);
 
-void load_match(std::string file, boxer b[]);
+void load_match(const std::string& file, boxer b[]);
 
-int set_boxer(std::string line, int *i, boxer b[]);
+int set_boxer(const std::string& line, int *i, boxer b[]);
 
 int main(int argc, char *argv[]) {
     verify_input(argc);
@@ -27,7 +27,7 @@ void verify_input(int argc) {
     }
 }
 
-void load_match(std::string file, boxer b[]) {
+void load_match(const std::string& file, boxer b[]) {
     std::ifstream infile(file);
     std::string line;
     int i = 0;
@@ -45,7 +45,7 @@ void load_match(std::string file, boxer b[]) {
     }
 }
 
-int set_boxer(std::string line, int *i, boxer b[]) {
+int set_boxer(const std::string& line, int *i, boxer b[]) {
     for (int j = 0; j < 2; j++) {
         if (!line.compare(START.length(), b[j].name.length(), b[j].name)) {
             *i = j;

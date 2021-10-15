@@ -22,7 +22,7 @@ std::string NAMES[] = {
         std::string("strength=")
 };
 
-const int NAMES_LEN = 4;
+const int NAMES_LEN = (sizeof(NAMES) / sizeof(*NAMES));
 
 int test_line(std::string line, std::string param) {
     return !line.compare(0, param.length(), param);

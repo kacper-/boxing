@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include "model.h"
 
 void verify_input(int argc);
@@ -9,15 +8,19 @@ void load_match(const std::string &file, boxer b[]);
 
 int set_boxer(const std::string &line, int *i, boxer b[]);
 
+void load_settings(const std::string &file, settings *s);
+
 int main(int argc, char *argv[]) {
     verify_input(argc);
-    std::string file(argv[1]);
+    std::string settings_file(argv[1]);
+    std::string boxers_file(argv[2]);
     boxer b[2];
-    b[0].name = std::string(argv[2]);
-    b[1].name = std::string(argv[3]);
-    int rounds = std::stoi(std::string(argv[4]));
-    load_match(file, b);
-    model(b, rounds);
+    settings s;
+    b[0].name = std::string(argv[3]);
+    b[1].name = std::string(argv[4]);
+    load_settings(settings_file, &s);
+    load_match(boxers_file, b);
+    model(b, s);
     return 0;
 }
 
@@ -25,6 +28,16 @@ void verify_input(int argc) {
     if (argc != 5) {
         std::cout << "Four arguments required !" << std::endl;
         exit(0);
+    }
+}
+
+void load_settings(const std::string &file, settings *s) {
+    std::ifstream infile(file);
+    std::string line;
+    while (std::getline(infile, line)) {
+        if (line.empty() | test_line(line, COMMENT))
+            continue;
+        parse_settings_line(line, s);
     }
 }
 

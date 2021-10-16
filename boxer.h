@@ -82,16 +82,16 @@ std::string NAMES[] = {
         IQ
 };
 
-int test_line(const std::string& line, const std::string& param) {
+int test_line(const std::string &line, const std::string &param) {
     return !line.compare(0, param.length(), param);
 }
 
-float line_to_val(const std::string& line, const std::string& param) {
+float line_to_val(const std::string &line, const std::string &param) {
     return std::stof(line.substr(param.length()));
 }
 
-void parse_line(const std::string& line, struct boxer *b) {
-    for (auto & i : NAMES) {
+void parse_line(const std::string &line, struct boxer *b) {
+    for (auto &i: NAMES) {
         if (test_line(line, i))
             b->val[i] = line_to_val(line, i);
     }
@@ -99,7 +99,7 @@ void parse_line(const std::string& line, struct boxer *b) {
 
 void print_boxer(struct boxer b) {
     std::cout << b.name << std::endl;
-    for (auto & i : NAMES)
+    for (auto &i: NAMES)
         std::cout << "\t" << i << b.val[i] << std::endl;
 }
 

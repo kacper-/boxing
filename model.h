@@ -6,12 +6,19 @@
 #define BOXING_MODEL_H
 
 #include <string>
+#include <cmath>
+#include <random>
 #include "boxer.h"
 #include "settings.h"
 
 void boxer_action(int round, int seconds, boxer b) {
-    std::cout << "\t\t" << b.name << " action" << std::endl;
-    // TODO implement action
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<float> r(0.0, 1.0);
+    float fq = b.val[FREQUENCY] / 100;
+    if (fq > r(mt)) {
+        std::cout << "\t\t" << b.name << " action" << std::endl;
+    }
 }
 
 void model_round(int round, struct boxer b[], struct settings s) {

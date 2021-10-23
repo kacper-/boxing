@@ -11,25 +11,32 @@
 #include "boxer.h"
 #include "settings.h"
 
-void boxer_action(int round, int seconds, boxer b) {
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_real_distribution<float> r(0.0, 1.0);
-    float fq = b.val[FREQUENCY] / 100;
+std::random_device rd;
+std::mt19937 mt(rd());
+std::uniform_real_distribution<float> r(0.0, 1.0);
+
+// SPEED vs SPEED
+// ATTACK vs DEFENCE
+
+float get_punch(boxer a) {
+    return a.val[STRENGTH] * a.val[WEIGHT] * a.val[POWER] * a.val[PRECISION];
+}
+
+void boxer_action(int round, int seconds, boxer a, boxer b) {
+    float fq = a.val[FREQUENCY];
     if (fq > r(mt)) {
-        std::cout << "\t\t" << b.name << " action" << std::endl;
+        std::cout << "\t\t" << a.name << " " << get_punch(a) << std::endl;
     }
 }
 
 void model_round(int round, struct boxer b[], struct settings s) {
     int round_len = std::stoi(s.val[ROUND_LEN]);
     int sampling = std::stoi(s.val[SAMPLING]);
-    int i, j;
+    int i;
     for (i = 0; i < round_len; i += sampling) {
         std::cout << "\tround " << round << " " << i << " seconds" << std::endl;
-        for (j = 0; j < 2; j++) {
-            boxer_action(round, i, b[j]);
-        }
+        boxer_action(round, i, b[0], b[1]);
+        boxer_action(round, i, b[1], b[0]);
     }
 }
 

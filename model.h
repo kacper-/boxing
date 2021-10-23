@@ -15,17 +15,16 @@ std::random_device rd;
 std::mt19937 mt(rd());
 std::uniform_real_distribution<float> r(0.0, 1.0);
 
-// SPEED vs SPEED
-// ATTACK vs DEFENCE
-
 float get_punch(boxer a) {
     return a.val[STRENGTH] * a.val[WEIGHT] * a.val[POWER] * a.val[PRECISION];
 }
 
 void boxer_action(int round, int seconds, boxer a, boxer b) {
     float fq = a.val[FREQUENCY];
+    float diff = a.val[ATTACK] - b.val[DEFENCE] + a.val[SPEED] - b.val[SPEED];
+    float punch = (1 + diff) * get_punch(a);
     if (fq > r(mt)) {
-        std::cout << "\t\t" << a.name << " " << get_punch(a) << std::endl;
+        std::cout << "\t\t" << a.name << " " << punch << std::endl;
     }
 }
 

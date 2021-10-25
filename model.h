@@ -15,16 +15,20 @@ std::random_device rd;
 std::mt19937 mt(rd());
 std::uniform_real_distribution<float> r(0.0, 1.0);
 
-float get_punch(boxer a) {
-    return a.val[STRENGTH] * a.val[WEIGHT] * a.val[POWER] * a.val[PRECISION];
+float get_punch(boxer *a, boxer *b) {
+    float diff = a->val[ATTACK] - b->val[DEFENCE] + a->val[SPEED] - b->val[SPEED] + a->val[LEGWORK] - a->val[LEGWORK];
+    float w_diff = a->val[WEIGHT] / b->val[WEIGHT];
+    float impact = a->val[STRENGTH] * w_diff * a->val[POWER] * a->val[PRECISION];
+    return (1 + diff) * impact;
 }
 
-void boxer_action(int round, int seconds, boxer a, boxer b) {
-    float fq = a.val[FREQUENCY];
-    float diff = a.val[ATTACK] - b.val[DEFENCE] + a.val[SPEED] - b.val[SPEED];
-    float punch = (1 + diff) * get_punch(a);
+void boxer_action(int round, int seconds, boxer *a, boxer *b) {
+    float fq = a->val[FREQUENCY];
+    float punch;
     if (fq > r(mt)) {
-        std::cout << "\t\t" << a.name << " " << punch << std::endl;
+        punch = get_punch(a, b);
+        b->val[RESILIENCE] -= punch;
+        std::cout << "\t\t" << a->name << " " << punch << " " << b->name << " " << b->val[RESILIENCE] << std::endl;
     }
 }
 
@@ -34,8 +38,8 @@ void model_round(int round, struct boxer b[], struct settings s) {
     int i;
     for (i = 0; i < round_len; i += sampling) {
         std::cout << "\tround " << round << " " << i << " seconds" << std::endl;
-        boxer_action(round, i, b[0], b[1]);
-        boxer_action(round, i, b[1], b[0]);
+        boxer_action(round, i, b, b + 1);
+        boxer_action(round, i, b + 1, b);
     }
 }
 

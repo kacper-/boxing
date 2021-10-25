@@ -16,6 +16,11 @@ std::mt19937 mt(rd());
 std::uniform_real_distribution<float> r(0.0, 1.0);
 
 float get_punch(boxer *a, boxer *b) {
+
+    // TODO dodać degradację parametrów wraz z upływem czasu (STAMINA)
+
+    // TODO dodać zmianę parametrów wraz z kumulacją ciosow
+
     float diff = a->val[ATTACK] - b->val[DEFENCE] + a->val[SPEED] - b->val[SPEED] + a->val[LEGWORK] - a->val[LEGWORK];
     float w_diff = a->val[WEIGHT] / b->val[WEIGHT];
     float impact = a->val[STRENGTH] * w_diff * a->val[POWER] * a->val[PRECISION];
@@ -27,12 +32,19 @@ void boxer_action(int round, int seconds, boxer *a, boxer *b) {
     float punch;
     if (fq > r(mt)) {
         punch = get_punch(a, b);
+
+        // TODO dodać zmianę degradacji wytrzymałość (HEART)
+        // rozważyć usunięcie HEART i dodanie CHIN
+
         b->val[RESILIENCE] -= punch;
         std::cout << "\t\t" << a->name << " " << punch << " " << b->name << " " << b->val[RESILIENCE] << std::endl;
     }
 }
 
 void model_round(int round, struct boxer b[], struct settings s) {
+
+    // TODO dodać regenerację parametrów po przerwie między rundami (STAMINA)
+
     int round_len = std::stoi(s.val[ROUND_LEN]);
     int sampling = std::stoi(s.val[SAMPLING]);
     int i;

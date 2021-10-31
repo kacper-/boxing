@@ -12,11 +12,15 @@ struct settings {
 const std::string ROUND_LEN("round_len=");
 const std::string ROUNDS("rounds=");
 const std::string SAMPLING("sampling=");
+const std::string CONSTANT_DIFF("constant_diff=");
+const std::string STAMINA_DROP("stamina_drop=");
 
 std::string PARAMS[] = {
         ROUND_LEN,
         ROUNDS,
-        SAMPLING
+        SAMPLING,
+        CONSTANT_DIFF,
+        STAMINA_DROP
 };
 
 float WD[] = {

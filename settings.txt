@@ -1,3 +1,5 @@
 round_len=360
 rounds=3
 sampling=5
+constant_diff=0.1
+stamina_drop=0.01

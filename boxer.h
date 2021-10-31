@@ -26,6 +26,7 @@ const std::string STRENGTH("strength=");
 const std::string SPEED("speed=");
 const std::string STAMINA("stamina=");
 const std::string RESILIENCE("resilience=");
+const std::string CHIN("chin=");
 
 // technical
 
@@ -51,7 +52,6 @@ const std::string CLINCH_SHARE("clinch_share=");
 
 // psychological
 
-const std::string HEART("heart=");
 const std::string IQ("iq=");
 
 std::string NAMES[] = {
@@ -62,6 +62,7 @@ std::string NAMES[] = {
         SPEED,
         STAMINA,
         RESILIENCE,
+        CHIN,
         DEFENCE,
         ATTACK,
         LEGWORK,
@@ -78,7 +79,6 @@ std::string NAMES[] = {
         OUTSIDE_SHARE,
         INSIDE_SHARE,
         CLINCH_SHARE,
-        HEART,
         IQ
 };
 

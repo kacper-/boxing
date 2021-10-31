@@ -32,12 +32,9 @@ void boxer_action(int round, int seconds, boxer *a, boxer *b) {
     float punch;
     if (fq > r(mt)) {
         punch = get_punch(a, b);
-
-        // TODO dodać zmianę degradacji wytrzymałość (HEART)
-        // rozważyć usunięcie HEART i dodanie CHIN
-
         b->val[RESILIENCE] -= punch;
-        std::cout << "\t\t" << a->name << " " << punch << " " << b->name << " " << b->val[RESILIENCE] << std::endl;
+        b->val[CHIN] -= punch;
+        std::cout << "\t\t" << a->name << " " << punch << " " << b->name << " " << b->val[RESILIENCE] << " " << b->val[CHIN] << std::endl;
     }
 }
 

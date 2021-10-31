@@ -34,7 +34,7 @@ void boxer_action(int round, int seconds, boxer *a, boxer *b) {
         punch = get_punch(a, b);
         b->val[RESILIENCE] -= punch;
         b->val[CHIN] -= punch;
-        std::cout << "\t\t" << a->name << " " << punch << " " << b->name << " " << b->val[RESILIENCE] << " " << b->val[CHIN] << std::endl;
+        std::cout << "\t\t" << a->name << " PUNCH " << punch << " " << b->name << " RESILIENCE " << b->val[RESILIENCE] << " CHIN " << b->val[CHIN] << std::endl;
     }
 }
 
@@ -46,7 +46,7 @@ void model_round(int round, struct boxer b[], struct settings s) {
     int sampling = std::stoi(s.val[SAMPLING]);
     int i;
     for (i = 0; i < round_len; i += sampling) {
-        std::cout << "\tround " << round << " " << i << " seconds" << std::endl;
+        std::cout << "\t" << i << " seconds" << std::endl;
         boxer_action(round, i, b, b + 1);
         boxer_action(round, i, b + 1, b);
     }

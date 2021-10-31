@@ -10,6 +10,7 @@
 struct boxer {
     std::string name;
     std::map<std::string, float> val;
+    std::map<std::string, float> original_val;
 };
 
 // comment constant
@@ -92,8 +93,10 @@ float line_to_val(const std::string &line, const std::string &param) {
 
 void parse_line(const std::string &line, struct boxer *b) {
     for (auto &i: NAMES) {
-        if (test_line(line, i))
+        if (test_line(line, i)) {
             b->val[i] = line_to_val(line, i);
+            b->original_val[i] = b->val[i];
+        }
     }
 }
 

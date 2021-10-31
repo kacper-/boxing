@@ -22,23 +22,47 @@ float get_punch(boxer *a, boxer *b) {
     // TODO dodać zmianę parametrów wraz z kumulacją ciosow
 
     float diff = a->val[ATTACK] - b->val[DEFENCE] + a->val[SPEED] - b->val[SPEED] + a->val[LEGWORK] - a->val[LEGWORK];
-    float w_diff = a->val[WEIGHT] / b->val[WEIGHT];
-    float impact = a->val[STRENGTH] * w_diff * a->val[POWER] * a->val[PRECISION];
-    return (1 + diff) * impact;
+
+    // TODO apply different rule for diff checking
+
+    if ((diff + 0.1) > r(mt)) {
+        float w_diff = a->val[WEIGHT] / b->val[WEIGHT];
+        return a->val[STRENGTH] * w_diff * a->val[POWER] * a->val[PRECISION];
+    }
+    return 0;
 }
 
 void boxer_action(int round, int seconds, boxer *a, boxer *b) {
     float fq = a->val[FREQUENCY];
     float punch;
     if (fq > r(mt)) {
-
-        // TODO choose punch type
-        // and then if punch was successful
+        float head = b->val[HEAD_PUNCH_SHARE];
+        float body = b->val[BODY_PUNCH_SHARE];
 
         punch = get_punch(a, b);
+
+        if ((head / (head + body)) > r(mt)) {
+            b->val[CHIN] -= punch;
+        } else {
+            b->val[STAMINA] -= punch;
+            b->val[LEGWORK] -= punch;
+        }
+
         b->val[RESILIENCE] -= punch;
-        b->val[CHIN] -= punch;
-        std::cout << "\t\t" << a->name << " PUNCH " << punch << " " << b->name << " RESILIENCE " << b->val[RESILIENCE] << " CHIN " << b->val[CHIN] << std::endl;
+        if (punch == 0) {
+            std::cout << "\t\t" << a->name << " PUNCH MISSED" << std::endl;
+        } else {
+            std::cout << "\t\t" << a->name << " PUNCH " << punch << " " << b->name << " RESILIENCE "
+                      << b->val[RESILIENCE]
+                      << " CHIN " << b->val[CHIN] << std::endl;
+        }
+    }
+}
+
+void is_ko(boxer *b) {
+    if (b->val[RESILIENCE] < 0 | b->val[STAMINA] < 0 | b->val[CHIN] < 0) {
+        std::cout << b->name << " lost by KO" << std::endl;
+        exit(0);
     }
 }
 
@@ -52,7 +76,9 @@ void model_round(int round, struct boxer b[], struct settings s) {
     for (i = 0; i < round_len; i += sampling) {
         std::cout << "\t" << i << " seconds" << std::endl;
         boxer_action(round, i, b, b + 1);
+        is_ko(b + 1);
         boxer_action(round, i, b + 1, b);
+        is_ko(b);
     }
 }
 

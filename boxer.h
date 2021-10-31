@@ -39,9 +39,6 @@ const std::string PRECISION("precision=");
 const std::string FREQUENCY("frequency=");
 const std::string OUTSIDE_SKILL("outside_skill=");
 const std::string INSIDE_SKILL("inside_skill=");
-const std::string CLINCH_SKILL("clinch_skill=");
-const std::string DUCK_SKILL("duck_skill=");
-const std::string GUARD_SKILL("guard_skill=");
 
 // tactics
 
@@ -49,7 +46,6 @@ const std::string BODY_PUNCH_SHARE("body_punch_share=");
 const std::string HEAD_PUNCH_SHARE("head_punch_share=");
 const std::string OUTSIDE_SHARE("outside_share=");
 const std::string INSIDE_SHARE("inside_share=");
-const std::string CLINCH_SHARE("clinch_share=");
 
 // psychological
 
@@ -72,14 +68,10 @@ std::string NAMES[] = {
         FREQUENCY,
         OUTSIDE_SKILL,
         INSIDE_SKILL,
-        CLINCH_SKILL,
-        DUCK_SKILL,
-        GUARD_SKILL,
         BODY_PUNCH_SHARE,
         HEAD_PUNCH_SHARE,
         OUTSIDE_SHARE,
         INSIDE_SHARE,
-        CLINCH_SHARE,
         IQ
 };
 

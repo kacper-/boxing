@@ -31,6 +31,10 @@ void boxer_action(int round, int seconds, boxer *a, boxer *b) {
     float fq = a->val[FREQUENCY];
     float punch;
     if (fq > r(mt)) {
+
+        // TODO choose punch type
+        // and then if punch was successful
+
         punch = get_punch(a, b);
         b->val[RESILIENCE] -= punch;
         b->val[CHIN] -= punch;
